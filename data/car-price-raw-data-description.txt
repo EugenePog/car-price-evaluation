@@ -1,0 +1,24 @@
+Description:
+Collection of car offers from one of Germany's largest car sales websites, AutoScout24. 
+This scraped dataset on date 24.06.2023 contains a wide range of information about car offers, 
+covering a cars manufactured from 1995 to 2023.
+
+Features:
+    Brand: The brand or manufacturer of the car.
+    Model: The specific model of the car.
+    Color: The color of the car's exterior.
+    Registration Date: The date when the car was registered (Month/Year).
+    Year of Production: The year in which the car was manufactured.
+    Price in Euro: The price of the car in Euros.
+    Power: The power of the car in kilowatts (kW) and horsepower (ps).
+    Transmission Type: The type of transmission (e.g., automatic, manual).
+    Fuel Type: The type of fuel the car requires.
+    Fuel Consumption: Information about the car's fuel consumption in L/100km ang g/km.
+    Mileage: The total distance traveled by the car in km.
+    Offer Description: Additional description provided in the car offer.
+	
+Date of validity:
+24.06.2023
+
+Source:
+https://www.kaggle.com/datasets/wspirat/germany-used-cars-dataset-2023
