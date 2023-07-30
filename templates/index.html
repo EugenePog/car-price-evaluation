@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Input Parameters</title>
+</head>
+<body>
+    <h1>Input Parameters</h1>
+    <form id="carForm">
+        <label for="brand">Brand:</label>
+        <select id="brand" name="brand">
+            {% for brand in brands %}
+            <option value="{{ brand }}">{{ brand }}</option>
+            {% endfor %}
+        </select>
+        <br>
+
+        <label for="model">Model:</label>
+        <select id="model" name="model">
+            {% for model in models[brands[0]] %}
+            <option value="{{ model }}">{{ model }}</option>
+            {% endfor %}
+        </select>
+        <br>
+
+        <label for="color">Color:</label>
+        <select id="color" name="color">
+            {% for color in colors %}
+            <option value="{{ color }}">{{ color }}</option>
+            {% endfor %}
+        </select>
+        <br>
+
+        <label for="transmission_type">Transmission Type:</label>
+        <select id="transmission_type" name="transmission_type">
+            {% for transmission_type in transmission_types %}
+            <option value="{{ transmission_type }}">{{ transmission_type }}</option>
+            {% endfor %}
+        </select>
+        <br>
+
+        <label for="fuel_type">Fuel Type:</label>
+        <select id="fuel_type" name="fuel_type">
+            {% for fuel_type in fuel_types %}
+            <option value="{{ fuel_type }}">{{ fuel_type }}</option>
+            {% endfor %}
+        </select>
+        <br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <div id="result">
+        <h2>Predicted Car Price:</h2>
+        <p id="predictedPrice"></p>
+    </div>
+
+    <script>
+        document.getElementById("carForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const form = event.target;
+            const data = {
+                brand: form.elements.brand.value,
+                model: form.elements.model.value,
+                color: form.elements.color.value,
+                transmission_type: form.elements.transmission_type.value,
+                fuel_type: form.elements.fuel_type.value
+            };
+            fetch("/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                document.getElementById("predictedPrice").innerText = "$" + result.predicted_price;
+            });
+        });
+    </script>
+</body>
+</html>

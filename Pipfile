@@ -1,0 +1,22 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pickle = "*"
+click = "*"
+mlflow = "*"
+optuna = "*"
+sklearn = "*"
+pandas = "*"
+numpy = "*"
+datetime = "*"
+xgboost = "*"
+flask = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
+python_full_version = "3.9.13"
