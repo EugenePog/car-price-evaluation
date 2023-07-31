@@ -55,6 +55,21 @@
     </div>
 
     <script>
+        const brandDropdown = document.getElementById("brand");
+        const modelDropdown = document.getElementById("model");
+
+        brandDropdown.addEventListener("change", function() {
+            const selectedBrand = brandDropdown.value;
+            const modelsForBrand = JSON.parse('{{ models | tojson | safe}}')[selectedBrand] || [];
+            modelDropdown.innerHTML = '';
+            modelsForBrand.forEach(model => {
+                const option = document.createElement("option");
+                option.text = model;
+                option.value = model;
+                modelDropdown.add(option);
+            });
+        });
+        
         document.getElementById("carForm").addEventListener("submit", function(event) {
             event.preventDefault();
             const form = event.target;
@@ -74,7 +89,7 @@
             })
             .then(response => response.json())
             .then(result => {
-                document.getElementById("predictedPrice").innerText = "$" + result.predicted_price;
+                document.getElementById("predictedPrice").innerText = "Recomended price: " + result.predicted_price + " USD";
             });
         });
     </script>
