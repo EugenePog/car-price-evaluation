@@ -4,19 +4,28 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-pickle = "*"
 click = "*"
 mlflow = "*"
 optuna = "*"
-sklearn = "*"
+scikit-learn = "*"
 pandas = "*"
 numpy = "*"
 datetime = "*"
 xgboost = "*"
 flask = "*"
+scipy = "*"
+docker = "*"
+prefect = "*"
+prefect-aws = "*"
+seaborn = "*"
+orjson = "*"
+prefect-email = "*"
+kubernetes = "*"
+gunicorn = "*"
 
 [dev-packages]
+requests = "*"
 
 [requires]
-python_version = "3.9"
-python_full_version = "3.9.13"
+python_version = "3.10"
+python_full_version = "3.10.12"

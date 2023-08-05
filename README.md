@@ -1,10 +1,25 @@
-# car-price-evaluation
-The service Car price evaluation offers persons a web page with inputs that helpes to make evaluation of the reasonable price for used car.
-Use cases:
-- a person wants to estimate price for the car that he wants to sell
-- a person wants to check if the price for the car he wants to buy is fair
+# Car price evaluation project - Web Application
 
-Instruction for users:
+# Application description
+Problem Description:
+The Car Price Evaluation web application offers a user-friendly interface for individuals looking to estimate the reasonable price for a used car. It provides a convenient and efficient way for users to assess the value of their vehicle if they intend to sell it, or to determine whether the price of a car they plan to purchase is fair. By leveraging various inputs and data points, the application aims to offer accurate and reliable price evaluations, making the car buying and selling process more transparent and informed.
+
+Features:
+- Input Data: The application allows users to input essential details about the car they wish to evaluate, including make, model, year of manufacture, mileage, condition, and any additional features or modifications.
+- Data Analysis: Utilizing a comprehensive database and sophisticated algorithms, the application processes the provided information to perform an in-depth analysis of the car's market value.
+- Comparative Analysis: For users looking to sell their car, the application compares the entered data with similar cars available in the market to determine a competitive and fair selling price.
+- Fair Price Assessment: For users interested in purchasing a car, the application assesses whether the listed price is reasonable based on prevailing market trends and the car's specific attributes.
+
+Use Cases:
+- Estimating Selling Price:
+  A person who intends to sell their car can use the Car Price Evaluation application to input the necessary details about their vehicle. The application will then process this information and generate an estimated selling price based on prevailing market trends, the car's condition, and comparable prices of similar cars.
+- Verifying Fair Purchase Price:
+  A prospective car buyer can utilize the application to assess whether the listed price of a used car is reasonable and fair. By providing the car's specifications and condition, the user will receive an evaluation that helps them make an informed decision during negotiations.
+
+The Car Price Evaluation application aims to simplify the car pricing process, empowering both sellers and buyers with valuable insights to make well-informed decisions and ensure fair transactions.
+
+
+# Installation instruction for users:
 1. copy project from github to your local machine
 2. create environment in the project directory: 
     pipenv install --python=3.9
