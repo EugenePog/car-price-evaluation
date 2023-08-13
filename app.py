@@ -6,13 +6,13 @@ from mlflow.tracking import MlflowClient
 
 app = Flask(__name__)
 
-MLFLOW_URI = 'sqlite:///mlflow.db'
-preprocessor_addition = "artifacts/preprocessor/preprocessor.bin"
+TRACKING_SERVER_HOST = "ec2-3-90-186-17.compute-1.amazonaws.com"
+preprocessor_addition = "/artifacts/preprocessor/preprocessor.bin"
 for_downloads = 'models/'
 preprocessor_location = for_downloads + 'preprocessor.bin'
 filter_string = "name = 'car-price-prediction-xgbregressor'"
 
-client = MlflowClient(tracking_uri = MLFLOW_URI)
+client = MlflowClient(f"http://{TRACKING_SERVER_HOST}:5000")
 
 def predict_car_price(brand, model, color, transmission_type, fuel_type):
     
@@ -28,7 +28,7 @@ def predict_car_price(brand, model, color, transmission_type, fuel_type):
     price_predictor = mlflow.xgboost.load_model(prod_version_source)
 
     #download preprocessor locally from mlflow
-    prod_version_preprocessor_source = prod_version_source[:prod_version_source.index("artifacts")]+preprocessor_addition
+    prod_version_preprocessor_source = prod_version_source[:prod_version_source.index("/artifacts")]+preprocessor_addition
     mlflow.artifacts.download_artifacts(artifact_uri=prod_version_preprocessor_source, dst_path=for_downloads)
 
     #open preprocessor using pickle, preprocess the input data and apply model to given data 
