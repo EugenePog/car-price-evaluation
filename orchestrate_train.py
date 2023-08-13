@@ -10,8 +10,6 @@ def main_flow() -> None:
     #setting up mlflow 
     mlflow.set_tracking_uri('sqlite:///mlflow.db')
     mlflow.set_experiment('car-price-prediction-xgbregressor-1')    
-    #enabling autologging
-    mlflow.xgboost.autolog() 
 
     # Load and transform the data
     run_data_cleansing_and_feature_engenering()

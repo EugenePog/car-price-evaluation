@@ -9,9 +9,12 @@ COPY ["Pipfile", "Pipfile.lock", "./"]
 
 RUN pipenv install --system --deploy
 
-COPY ["models/xgb_regressor.bin", "./models/"]
 COPY ["app.py", "./"]
 COPY ["templates/index.html", "./templates/"]
+COPY ["mlflow.db", "./"]
+COPY ["mlruns/", "./mlruns/"]
+
+RUN mkdir models
 
 EXPOSE 5011
 

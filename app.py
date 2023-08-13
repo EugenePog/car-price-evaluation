@@ -1,18 +1,43 @@
 from flask import Flask, render_template, request, jsonify
 from xgboost import XGBRegressor
 import pickle
+import mlflow
+from mlflow.tracking import MlflowClient
 
 app = Flask(__name__)
-model_location = 'models/xgb_regressor.bin'
+
+MLFLOW_URI = 'sqlite:///mlflow.db'
+preprocessor_addition = "artifacts/preprocessor/preprocessor.bin"
+for_downloads = 'models/'
+preprocessor_location = for_downloads + 'preprocessor.bin'
+filter_string = "name = 'car-price-prediction-xgbregressor'"
+
+client = MlflowClient(tracking_uri = MLFLOW_URI)
 
 def predict_car_price(brand, model, color, transmission_type, fuel_type):
-    with open(model_location, 'rb') as f_in:
-        (dv, price_predictor) = pickle.load(f_in)
+    
+    #getting model, registered in mlflow with name, coded in 'filter_string' and in production stage (take the 1st model in the stage, assuming that only 1 model for the given name has production stage) 
+    prod_version = ''
+    for ver in client.search_model_versions(filter_string=filter_string):
+        if ver.current_stage == 'Production':
+            prod_version = ver
+            break
+
+    #take the model by it path
+    prod_version_source = prod_version.source
+    price_predictor = mlflow.xgboost.load_model(prod_version_source)
+
+    #download preprocessor locally from mlflow
+    prod_version_preprocessor_source = prod_version_source[:prod_version_source.index("artifacts")]+preprocessor_addition
+    mlflow.artifacts.download_artifacts(artifact_uri=prod_version_preprocessor_source, dst_path=for_downloads)
+
+    #open preprocessor using pickle, preprocess the input data and apply model to given data 
+    with open(preprocessor_location, 'rb') as f_in:
+        dv = pickle.load(f_in)
 
         input_dict = [{'brand': brand, 'model': model, 'color': color, 'transmission_type': transmission_type, 'fuel_type': fuel_type}]
     
         input_vect = dv.transform(input_dict)
-
         predicted_price = price_predictor.predict(input_vect)
 
         return round(predicted_price.tolist()[0], 2)
@@ -55,5 +80,9 @@ def index():
     return render_template('index.html', brands=brands, models=models, colors=colors,
                            transmission_types=transmission_types, fuel_types=fuel_types)
 
+#application use ports:
+# - 5010 for development
+# - 5011 in production inside docker container
+# - 5012 in production outside docker container
 if __name__ == '__main__':
     app.run(debug=True, port=5010)

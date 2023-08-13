@@ -1,57 +1,111 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Input Parameters</title>
-</head>
+    <head>
+        <title>Car Price Evaluation</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f4f4f4;
+            }
+            #container {
+                width: 80%;
+                margin: auto;
+                overflow: hidden;
+            }
+            header {
+                background-color: #35424a;
+                color: white;
+                padding: 20px;
+                text-align: center;
+            }
+            #form-container {
+                background-color: white;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            }
+            form {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            label {
+                margin: 10px;
+            }
+            select {
+                width: 100%;
+                max-width: 300px;
+                padding: 10px;
+                border-radius: 5px;
+            }
+            input[type="submit"] {
+                background-color: #35424a;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                cursor: pointer;
+                margin-top: 20px;
+            }
+            input[type="submit"]:hover {
+                background-color: #293538;
+            }
+            #result {
+                text-align: center;
+                margin-top: 20px;
+            }
+        </style>
+    </head>
 <body>
-    <h1>Input Parameters</h1>
-    <form id="carForm">
-        <label for="brand">Brand:</label>
-        <select id="brand" name="brand">
-            {% for brand in brands %}
-            <option value="{{ brand }}">{{ brand }}</option>
-            {% endfor %}
-        </select>
-        <br>
+    <div id="container">
+        <header>
+            <h1>Car Price Evaluation</h1>
+        </header>
+        <div id="form-container">
+            <form id="carForm">
+                <label for="brand">Brand:</label>
+                <select id="brand" name="brand">
+                    {% for brand in brands %}
+                    <option value="{{ brand }}">{{ brand }}</option>
+                    {% endfor %}
+                </select>
 
-        <label for="model">Model:</label>
-        <select id="model" name="model">
-            {% for model in models[brands[0]] %}
-            <option value="{{ model }}">{{ model }}</option>
-            {% endfor %}
-        </select>
-        <br>
+                <label for="model">Model:</label>
+                <select id="model" name="model">
+                    {% for model in models[brands[0]] %}
+                    <option value="{{ model }}">{{ model }}</option>
+                    {% endfor %}
+                </select>
 
-        <label for="color">Color:</label>
-        <select id="color" name="color">
-            {% for color in colors %}
-            <option value="{{ color }}">{{ color }}</option>
-            {% endfor %}
-        </select>
-        <br>
+                <label for="color">Color:</label>
+                <select id="color" name="color">
+                    {% for color in colors %}
+                    <option value="{{ color }}">{{ color }}</option>
+                    {% endfor %}
+                </select>
 
-        <label for="transmission_type">Transmission Type:</label>
-        <select id="transmission_type" name="transmission_type">
-            {% for transmission_type in transmission_types %}
-            <option value="{{ transmission_type }}">{{ transmission_type }}</option>
-            {% endfor %}
-        </select>
-        <br>
+                <label for="transmission_type">Transmission:</label>
+                <select id="transmission_type" name="transmission_type">
+                    {% for transmission_type in transmission_types %}
+                    <option value="{{ transmission_type }}">{{ transmission_type }}</option>
+                    {% endfor %}
+                </select>
 
-        <label for="fuel_type">Fuel Type:</label>
-        <select id="fuel_type" name="fuel_type">
-            {% for fuel_type in fuel_types %}
-            <option value="{{ fuel_type }}">{{ fuel_type }}</option>
-            {% endfor %}
-        </select>
-        <br>
+                <label for="fuel_type">Fuel Type:</label>
+                <select id="fuel_type" name="fuel_type">
+                    {% for fuel_type in fuel_types %}
+                    <option value="{{ fuel_type }}">{{ fuel_type }}</option>
+                    {% endfor %}
+                </select>
 
-        <input type="submit" value="Submit">
-    </form>
-
-    <div id="result">
-        <h2>Predicted Car Price:</h2>
-        <p id="predictedPrice"></p>
+                <input type="submit" value="Predict Price">
+            </form>
+            <div id="result">
+                <h2>Predicted Car Price:</h2>
+                <p id="predictedPrice"></p>
+            </div>
+        </div>
     </div>
 
     <script>

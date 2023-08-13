@@ -1,0 +1,12 @@
+click
+mlflow
+scikit-learn
+pandas
+numpy
+xgboost
+flask
+scipy
+seaborn
+orjson
+gunicorn
+jupyter

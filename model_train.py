@@ -7,6 +7,7 @@ from sklearn.feature_extraction import DictVectorizer
 from xgboost import XGBRegressor
 import pickle
 from sklearn.metrics import accuracy_score
+import mlflow
 
 from prefect import flow, task
 
@@ -14,7 +15,7 @@ num_f = ['model_age', 'm_from_car_reg', 'power_kw', 'mileage_in_km']
 cat_f = ['brand', 'model', 'color', 'transmission_type', 'fuel_type']
 target = ['price_in_euro']
 preprocessed_data = 'data/car-price-processed-data.parquet'
-model_location = 'models/xgb_regressor.bin'
+preprocessor_location = 'models/preprocessor.bin'
 TEST_SIZE = 0.2
 
 #@task(retries=3, retry_delay_seconds=2, name="Read preprocessed data")
@@ -29,7 +30,10 @@ def data_load(data_path):
 
 @task(log_prints=True, name="Train the model")
 def run_model_train():
-     
+
+    #disabling autologging
+    mlflow.xgboost.autolog(disable = True) 
+
     #loading of train and test datasets 
     X_train, X_test, Y_train, Y_test = data_load(preprocessed_data)
         
@@ -59,13 +63,23 @@ def run_model_train():
     # evaluate predictions
     RSME_on_test = metrics.mean_squared_error(Y_test, Y_pred_on_test, squared = False)
 
-    #logging metrics to mlflow
-    #mlflow.log_metric('rmse_on_train_dataset', RSME_on_train)
-    #mlflow.log_metric('rmse_on_test_dataset', RSME_on_test)
+    #logging metrics to mlflow 
+    mlflow.log_metric('rmse_on_train_dataset', RSME_on_train)
+    mlflow.log_metric('rmse_on_test_dataset', RSME_on_test)
 
-    #save the model
-    with open(model_location, 'wb') as f_out:
-        pickle.dump((dv, model),f_out)
+    #logging parameters to mlflow 
+    mlflow.log_params(model.get_xgb_params())
+
+    #save preprocessor locally
+    with open(preprocessor_location, 'wb') as f_out:
+        pickle.dump(dv,f_out)
+
+    #logging preprocessor to mlflow 
+    mlflow.log_artifact(preprocessor_location, artifact_path="preprocessor")
+
+    #logging model to mlflow 
+    mlflow.xgboost.log_model(model, artifact_path="model")
+    
 
 if __name__ == '__main__':
     run_model_train()
